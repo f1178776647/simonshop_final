@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>显示订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6"
+             style="color: white; background-color: darkblue; border-radius: 5px 5px 0 0">
+            <div class="text-center" style="padding: 3px;">
+                <h3>显示订单</h3>
+            </div>
+        </div>
+        <div class="well col-md-offset-3 col-md-6" style="border-radius: 0 0 5px 5px">
+            <table class="table table-bordered">
+                <tr align="center">
+                    <th>订单编号</th>
+                    <td th:text="${lastOrder.id}">1</td>
+                </tr>
+                <tr align="center">
+                    <th>用户名</th>
+                    <td th:text="${lastOrder.username}">郑晓红</td>
+                </tr>
+                <tr align="center">
+                    <th>联系电话</th>
+                    <td th:text="${lastOrder.telephone}">15890906789</td>
+                </tr>
+                <tr align="center">
+                    <th>总金额</th>
+                    <td th:text="${lastOrder.totalPrice}">5600.0</td>
+                </tr>
+                <tr align="center">
+                    <th>送货地址</th>
+                    <td th:text="${lastOrder.deliveryAddress}">泸职院信息工程系</td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <a class="btn btn-primary btn-block" th:href="@{/order/pay}" href="../index.html" onclick="pay();" target="_parent">支付</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    function pay() {
+        var username = [[${lastOrder.username}]];
+        alert(username + "支付成功！");
+    }
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $(window).resize();
+    });
+
+    $(window).resize(function () {
+        $('.container').css({
+            position: "absolute",
+            left: ($(window).width() - $('.container').width()) / 2,
+            top: ($(window).height() - $('.container').height()) / 2
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>查看类别</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-table.css}" href="../../static/bootstrap/css/bootstrap-table.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table.js}" src="../../static/bootstrap/js/bootstrap-table.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table-zh-CN.js}"
+            src="../../static/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+</head>
+<body>
+<div class="col-md-12">
+    <div class="panel panel-primary" style="margin-top: 10px">
+        <div class="panel-heading text-center">
+            <span class="panel-title" style="font-size: 20px;">查看类别</span>
+        </div>
+        <div class="panel-body">
+            <table id="category_table"
+                   data-toggle="table"
+                   data-url="/category/listAll"
+                   data-method="post"
+                   data-query-params="queryParams"
+                   data-pagination="true"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-striped="true"
+                   data-page-size="5">
+                <thead>
+                <tr>
+                    <th data-field="id">类别编号</th>
+                    <th data-field="name">类别名称</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="panel-footer text-right">
+            <span class="panel-title">酒城软件工作室@2017</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

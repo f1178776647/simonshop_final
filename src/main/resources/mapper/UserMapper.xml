@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.hw.shop.mapper.UserMapper">
+
+    <resultMap id="userMap" type="net.hw.shop.bean.User">
+        <result property="registerTime" column="register_time"/>
+        <result property="popedom" column="popedom"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="net.hw.shop.bean.User">
+        insert into t_user (username, password, telephone, register_time, popedom)
+        values (#{username}, #{password}, #{telephone}, #{registerTime}, #{popedom});
+    </insert>
+
+    <update id="update" parameterType="net.hw.shop.bean.User">
+        update t_user
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="username != null">
+                telephone = #{telephone},
+            </if>
+            <if test="registerTime != null">
+                register_time = #{registerTime},
+            </if>
+            <if test="popedom != null">
+                popedom = #{popedom}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete from t_user where id = #{id};
+    </delete>
+
+    <select id="count" parameterType="net.hw.shop.bean.Page" resultType="Integer">
+        select count(*) from t_user
+    </select>
+
+    <select id="findList" parameterType="net.hw.shop.bean.User" resultMap="userMap">
+        select * from t_user
+        <where>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="password != null">
+                and password = #{password}
+            </if>
+            <if test="telephone != null">
+                and telephone = #{telephone}
+            </if>
+            <if test="registerTime != null">
+                and register_time = #{registerTime}
+            </if>
+            <if test="popedom != null">
+                and popedom = #{popedom}
+            </if>
+        </where>
+    </select>
+
+    <select id="findPage" parameterType="net.hw.shop.bean.Page" resultMap="userMap">
+        select * from t_user
+        <!-- 分页控制 -->
+        <if test="offset != null">
+            limit #{offset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="Integer" resultMap="userMap">
+        select * from t_user where id = #{id};
+    </select>
+
+    <select id="login" resultMap="userMap">
+        select * from t_user where username = #{username} and password = #{password};
+    </select>
+
+</mapper>

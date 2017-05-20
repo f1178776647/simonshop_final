@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.hw.shop.mapper.OrderMapper">
+
+    <resultMap id="orderMap" type="net.hw.shop.bean.Order">
+        <result property="totalPrice" column="total_price"/>
+        <result property="deliveryAddress" column="delivery_address"/>
+        <result property="orderTime" column="order_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="net.hw.shop.bean.Order">
+        insert into t_order (username, telephone, total_price, delivery_address, order_time)
+        values (#{username}, #{telephone}, #{totalPrice}, #{deliveryAddress}, #{orderTime});
+    </insert>
+    
+    <update id="update" parameterType="net.hw.shop.bean.Order">
+        update t_order
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice},
+            </if>
+            <if test="deliveryAddress != null">
+                delivery_address = #{deliveryAddress},
+            </if>
+            <if test="orderTime != null">
+                order_time = #{orderTime}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from t_order where id = #{id};
+    </delete>
+
+    <select id="findById" parameterType="int" resultMap="orderMap">
+        select * from t_order where id = #{id};
+    </select>
+
+    <select id="findList" parameterType="net.hw.shop.bean.Order"
+            resultMap="orderMap">
+        select * from t_order
+        <where>
+            <if test="username != null">
+                username = #{username}
+            </if>
+            <if test="telephone != null">
+                and telephone = #{telephone}
+            </if>
+            <if test="totalPrice != null">
+                and total_price = #{totalPrice}
+            </if>
+            <if test="deliveryAddress != null">
+                and delivery_address = #{deliveryAddress}
+            </if>
+            <if test="orderTime != null">
+                and order_time = #{orderTime}
+            </if>
+        </where>
+    </select>
+</mapper>

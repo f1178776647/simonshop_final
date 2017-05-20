@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>个人中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/scripts/check.js}"
+            src="../../static/scripts/check.js"></script>
+</head>
+<body>
+<!--包含模态对话框-->
+<div th:include="common/info-dialog"></div>
+
+<div style="margin-top: 5px;">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">用户信息</a></li>
+        <li><a href="#tab2" data-toggle="tab">我的订单</a></li>
+        <li><a href="#tab3" data-toggle="tab">更改密码</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            <table class="table table-bordered" style="margin-top: 5px;">
+                <tr>
+                    <th>用户名</th>
+                    <td th:text="${session.user.username}"></td>
+                </tr>
+                <tr>
+                    <th>密码</th>
+                    <td th:text="${session.user.password}"></td>
+                </tr>
+                <tr>
+                    <th>电话</th>
+                    <td th:text="${session.user.telephone}"></td>
+                </tr>
+                <tr>
+                    <th>注册时间</th>
+                    <td th:text="${#dates.format(session.user.registerTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                </tr>
+                <tr>
+                    <th>权限</th>
+                    <td th:text="${session.user.popedom==0?'管理员':'普通用户'}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane" id="tab2">
+            <table class="table table-bordered" style="margin-top: 5px;">
+                <tr class="heading">
+                    <th>订单编号</th>
+                    <th>用户名</th>
+                    <th>联系电话</th>
+                    <th>总金额</th>
+                    <th>送货地址</th>
+                </tr>
+                <tr th:each="order: ${session.orders}" class="record">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.username}"></td>
+                    <td th:text="${order.telephone}"></td>
+                    <td th:text="${order.totalPrice}"></td>
+                    <td th:text="${order.deliveryAddress}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane" id="tab3">
+            <div class="row" style="margin-left: 5px; margin-top: 5px;">
+                <div class="col-md-4"
+                     style="color: white; background-color: darkblue;
+                 float: none; border-radius: 5px 5px 0 0;">
+                    <div class="text-center" style="padding: 3px;">
+                        <h3>更改密码</h3>
+                    </div>
+                </div>
+                <div class="well col-md-4" style="border-radius: 0 0 5px 5px">
+                    <form id="ff" method="post">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="password" class="form-control" type="password" name="password" placeholder="输入密码"/>
+                        </div>
+                        <div class="input-group" style="margin-top: 5px;">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="repassword" class="form-control" type="password" name="repassword"
+                                   placeholder="输入确认密码"/>
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <div class="text-center">
+                                <a href="javascript:changePassword()" class="btn btn-success btn-block"
+                                   onclick="return checkPassword()">确定</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function changePassword() {
+        $.post('/user/changePassword',
+            {"password":$("#password").val()},
+            function (data) {
+           if (data.success) {
+               $('#message').html("恭喜，密码更改成功！");
+               $('#dialog').css({visibility: "visible"});
+               $('#password').val("");
+               $('#repassword').val("");
+           } else {
+               $('#message').html("遗憾，密码更改失败！");
+               $('#dialog').css({visibility: "visible"});
+           }
+        });
+    }
+</script>
+</body>
+</html>

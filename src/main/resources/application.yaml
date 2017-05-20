@@ -1,0 +1,56 @@
+#服务器配置
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+    basedir: /data/simonshop/tomcat
+    max-threads: 2000
+    min-spare-threads: 10
+    accesslog:
+      pattern: common
+      enabled: true
+      directory: ../logs
+      prefix: simonshop_access_log
+      suffix: .log
+      request-attributes-enabled: true
+      rename-on-rotate: true
+
+#日志配置
+logging:
+  level:
+    root: INFO
+    net.hw.shop: DEBUG
+
+spring:
+  #数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/simonshop_final?characterEncoding=utf-8
+    username: root
+    password:
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+      pool-name: simonshop-pool
+  #模板引擎配置
+  thymeleaf:
+    cache: false
+    content-type: text/html
+    mode: HTML5
+
+#缓存配置
+cache:
+    ehcache:
+      config: ehcache.xml
+
+#MyBatis配置
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: net.hw.shop.bean
+
+

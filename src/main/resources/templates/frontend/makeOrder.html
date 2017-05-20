@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>生成订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4"
+             style="color: white; background-color: darkblue; border-radius: 5px 5px 0 0">
+            <div class="text-center" style="padding: 3px;">
+                <h3>生成订单</h3>
+            </div>
+        </div>
+        <div class="well col-md-offset-4 col-md-4" style="border-radius: 0 0 5px 5px">
+            <form th:action="@{/order/makeOrder}" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input class="form-control" type="text" name="username" th:value="${session.username}" value="郑晓红"
+                           readonly="readonly"/>
+                </div>
+                <div class="input-group" style="margin-top: 5px;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                    <input class="form-control" type="tel" name="telephone" placeholder="输入电话号码"/>
+                </div>
+                <div class="input-group" style="margin-top: 5px;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-yen"></i></span>
+                    <input class="form-control" type="text" name="totalPrice" th:value="${totalPrice}" value="2000.0"
+                           readonly="readonly"/>
+                </div>
+                <div class="input-group" style="margin-top: 5px;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+                    <input class="form-control" type="text" name="deliveryAddress" placeholder="输入送货地址"/>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">确定</button>
+                        <button type="reset" class="btn btn-success">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(window).resize();
+    });
+
+    $(window).resize(function () {
+        $('.container').css({
+            position: "absolute",
+            left: ($(window).width() - $('.container').width()) / 2,
+            top: ($(window).height() - $('.container').height()) / 2
+        });
+    });
+</script>
+</body>
+</html>

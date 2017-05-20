@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.hw.shop.mapper.ProductMapper">
+    <sql id="field">
+        a.id,
+        a.name,
+        a.price,
+        a.add_time,
+        a.image,
+        a.category_id as "category.id",
+        b.name as "category.name"
+    </sql>
+
+    <sql id="join">
+        <!-- 在此处添加与其它表的关联 -->
+        inner join t_category b on a.category_id = b.id
+    </sql>
+
+    <sql id="orderBy">
+        order by a.id asc
+    </sql>
+
+    <resultMap id="productMap" type="net.hw.shop.bean.Product">
+        <result property="addTime" column="add_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="net.hw.shop.bean.Product">
+        insert into t_product (name, price, add_time, image, category_id)
+        VALUES (#{name}, #{price}, #{addTime}, #{image}, #{category.id});
+    </insert>
+
+    <update id="update" parameterType="net.hw.shop.bean.Product">
+        update t_product
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="category != null">
+                category_id = #{category.id}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete from t_product where id = #{id};
+    </delete>
+
+    <delete id="deleteByCategoryId" parameterType="Integer">
+        delete from t_product where category_id = #{categoryId};
+    </delete>
+
+    <select id="count" parameterType="net.hw.shop.bean.Page" resultType="Integer">
+        select count(*) from t_product
+        <where>
+            <if test="extra != null">
+                category_id = #{extra.categoryId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findById" parameterType="Integer" resultMap="productMap">
+        select
+        <include refid="field"/>
+        from t_product a
+        <include refid="join"/>
+        where a.id = #{id};
+    </select>
+
+    <select id="findList" parameterType="net.hw.shop.bean.Product"
+            resultMap="productMap">
+        select
+        <include refid="field"/>
+        from t_product a
+        <include refid="join"/>
+        <where>
+            <if test="name != null">
+                and a.name like CONCAT(#{name},'%')
+            </if>
+            <if test="price != null">
+                and a.price = #{price}
+            </if>
+            <if test="addTime != null">
+                and a.add_time = #{addTime}
+            </if>
+            <if test="image != null">
+                and a.image = #{image}
+            </if>
+            <if test="category != null">
+                and a.category_id = #{category.id}
+            </if>
+        </where>
+        <include refid="orderBy"/>
+    </select>
+
+    <select id="findPage" parameterType="net.hw.shop.bean.Page" resultMap="productMap">
+        select
+        <include refid="field"/>
+        from t_product a
+        <include refid="join"/>
+        <where>
+            <if test="extra != null">
+                category_id = #{extra.categoryId}
+            </if>
+        </where>
+        <include refid="orderBy"/>
+        <!-- 分页控制 -->
+        <if test="offset != null">
+            limit #{offset}, #{pageSize}
+        </if>
+    </select>
+
+</mapper>

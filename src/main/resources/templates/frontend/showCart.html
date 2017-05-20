@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>显示购物车</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container" style="margin-left: 1em; margin-top: 5px; padding: 0;">
+    <div class="row">
+        <div class="col-md-12"
+             style="color: white; background-color: darkblue; border-radius: 5px 5px 0 0">
+            <div class="text-center" style="padding: 1px;">
+                <h3 th:text="${session.username==null?'XXX':session.username}+'的购物车'">郑晓红的购物车</h3>
+            </div>
+        </div>
+        <div class="well col-md-12" style="border-radius: 0 0 5px 5px">
+            <table class="table table-bordered">
+                <tr align="center">
+                    <td style="font-weight: bold">商品编号</td>
+                    <td style="font-weight: bold">商品名称</td>
+                    <td style="font-weight: bold">销售价格</td>
+                    <td style="font-weight: bold">购买数量</td>
+                    <td style="font-weight: bold">合计金额</td>
+                    <td style="font-weight: bold">用户操作</td>
+                </tr>
+                <tr th:each="shoppingItem:${session.shoppingTable}" align="center">
+                    <td th:text="${shoppingItem.id}">1</td>
+                    <td th:text="${shoppingItem.name}">容声电冰箱</td>
+                    <td th:text="${shoppingItem.price}">2000.0</td>
+                    <td th:text="${shoppingItem.amount}">2</td>
+                    <td th:text="${shoppingItem.sum}">4000.0</td>
+                    <td><a th:href="@{/product/operateCart(id=${shoppingItem.id}, operation='delete')}">删除</a></td>
+                </tr>
+
+                <tr align="center">
+                    <td style="font-weight: bold">总金额</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="color: red; font-weight: bold"
+                        th:text="'￥'+${session.totalPrice==null?'0.0':session.totalPrice}">￥4000.0
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <a class="btn btn-primary btn-block"
+                   th:href="@{/order/toMakeOrder(totalPrice=${session.totalPrice==null?0.0:session.totalPrice})}">生成订单</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

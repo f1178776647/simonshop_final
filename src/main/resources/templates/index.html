@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>西蒙购物网首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <link th:href="@{/css/main.css}" href="../static/css/main.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/scripts/check.js}"
+            src="../static/scripts/check.js"></script>
+
+    <style type="text/css">
+        .record {
+            text-align: center;
+        }
+
+        .record:hover {
+            color: white;
+            background-color: blue;
+        }
+
+        .record:hover a {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${registerMsg!=null}">
+    <script th:inline="javascript">
+        var registerMsg = [[${registerMsg}]]
+        alert(registerMsg);
+    </script>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading text-center">
+        <span class="panel-title" style="font-size: 3em;">西蒙购物网</span>
+    </div>
+    <div class="col-md-12">
+        <div class="panel-footer text-right">
+            <div th:if="${session.username==null}" style="float: left">
+                <a th:href="@{/user/toLogin}" class="btn btn-success">登录</a>
+            </div>
+            <div th:if="${session.username!=null}" style="font-size: 1.2em; float: left">
+                登录用户：<span th:text="${session.username}" style="color: red;"></span>
+                &nbsp;&nbsp;<a class="btn btn-info" th:href="@{/user/infoCenter}" target="mainFrame">信息中心</a>&nbsp;&nbsp;
+                <a th:href="@{/user/logout}" href="../index.html" target="_parent" class="btn btn-warning">注销</a>
+            </div>
+            &nbsp;&nbsp;
+            <a th:href="@{/user/toRegister}" class="btn btn-success">注册</a>
+        </div>
+    </div>
+    <div class="panel-body" style="height: 500px;">
+        <div class="row text-center">
+            <div class="col-md-2" style="height: 450px;">
+                <ul class="list-group" style="margin-top: 5px;">
+                    <li class="list-group-item">
+                        <a th:href="@{/product/showProduct(categoryId=0, currentPage=1)}"
+                           target="mainFrame">全部类别</a>
+                    </li>
+                    <li class="list-group-item record" th:each="category:${session.categories}">
+                        <span class="glyphicon glyphicon-hand-right"></span> <a
+                            th:href="@{/product/showProduct(categoryId=${category.id}, currentPage=1)}"
+                            target="mainFrame"><span
+                            th:text="${category.name}">家用电器</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <iframe name="mainFrame" th:src="@{/product/showProduct(categoryId=0, currentPage=1)}"
+                        frameborder="0" style="width: 100%; height: 450px;" scrolling="yes"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer text-right">
+        <span class="panel-title">酒城软件工作室@2017</span>
+    </div>
+</div>
+</body>
+</html>

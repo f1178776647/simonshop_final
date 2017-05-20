@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>显示商品</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<!--包含模态对话框-->
+<div th:include="common/info-dialog"></div>
+
+<div th:if="${orderMsg!=null}">
+    <script th:inline="javascript">
+        var orderMsg = [[${orderMsg}]];
+        $('#message').html(orderMsg);
+        $('#dialog').css({visibility: "visible"});
+    </script>
+</div>
+
+<div th:if="${productMsg!=null}">
+    <script th:inline="javascript">
+        var productMsg = [[${productMsg}]];
+        $('#message').html(productMsg);
+        $('#dialog').css({visibility: "visible"});
+    </script>
+</div>
+
+<div class="container" style="margin-left: 1em; margin-top: 5px; padding: 0">
+    <div class="row">
+        <div class="col-md-12"
+             style="color: white; background-color: darkblue; border-radius: 5px 5px 0 0">
+            <div class="text-center" style="padding: 1px;">
+                <h3><span th:text="${session.categoryName}">全部类别</span></h3>
+            </div>
+        </div>
+        <div class="well col-md-12" style="border-radius: 0 0 5px 5px">
+            <table class="table table-bordered">
+                <div th:each="product:${session.page.list}">
+                    <td>
+                        <table border="0">
+                            <tr align="center">
+                                <td colspan="2">
+                                    <img th:src="@{${product.image}}"
+                                         src="../../static/images/product1.jpg"
+                                         width="60px" height="60px" alt="图片丢失"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>商品编号：</b></td>
+                                <td><span th:text="${product.id}">1</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>商品名称：</b></td>
+                                <td><span th:text="${product.name}">容声电冰箱</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>销售价格：</b></td>
+                                <td><span th:text="${product.price}">2000</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>上架时间：</b></td>
+                                <td><span th:text="${#dates.format(product.addTime, 'yyyy-MM-dd hh:mm:ss')}">2016-12-20 09:54:41</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>用户操作：</b></td>
+                                <td>
+                                    <div th:if="${session.username!=null}">
+                                        <a th:href="@{/product/operateCart(id=${product.id}, operation='add')}">加入购物车</a>
+                                    </div>
+                                    <div th:if="${session.username==null}">
+                                        <a th:href="@{/product/operateCart(id=${product.id}, operation='add')}"
+                                           target="_parent">加入购物车</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <!--<div th:if="${productStat.count%3==0}">-->
+                        <!--<tr></tr>-->
+                    <!--</div>-->
+                </div>
+            </table>
+            <div class="pager" style="height: 20px;">
+                <span style="float: left"
+                      th:text="${session.page.currentPage}+'/'+${session.page.totalPageCount}+'页'"></span>
+                <ul>
+                    <li class="current"><a
+                            th:href="@{/product/showProduct(categoryId=${session.categoryId}, currentPage=1)}">首页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/showProduct(categoryId=${session.categoryId}, currentPage=${session.page.currentPage - 1})}">上一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/showProduct(categoryId=${session.categoryId}, currentPage=${session.page.currentPage + 1})}">下一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/product/showProduct(categoryId=${session.categoryId}, currentPage=${session.page.totalPageCount})}">末页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div th:if="${session.username!=null}">
+        <div class="row">
+            <div th:include="frontend/showCart"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

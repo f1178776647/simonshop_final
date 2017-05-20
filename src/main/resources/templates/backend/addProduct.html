@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>添加商品</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/scripts/check.js}"
+            src="../../static/scripts/check.js"></script>
+</head>
+<body>
+<!--包含模态对话框-->
+<div th:include="common/info-dialog"></div>
+
+<div th:if="${productMsg!=null}">
+    <script th:inline="javascript">
+        var productMsg = [[${productMsg}]];
+        $('#message').html(productMsg);
+        $('#dialog').css({visibility: "visible"});
+    </script>
+</div>
+
+<div class="col-md-4">
+    <div class="panel panel-primary" style="margin-top: 10px">
+        <div class="panel-heading text-center">
+            <span class="panel-title" style="font-size: 20px;">添加商品</span>
+        </div>
+        <div class="panel-body">
+            <form id="form" th:action="@{/product/addProduct}" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                    <input id="name" class="form-control" type="text" name="name" placeholder="输入商品名称"/>
+                </div>
+                <div class="input-group" style="margin-top: 5px;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lamp"></i></span>
+                    <input id="price" class="form-control" type="number" name="price" placeholder="输入商品单价"/>
+                </div>
+                <div class="input-group" style="margin-top: 5px;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                    <input id="imageFile" class="form-control" type="file" value="上传商品图片" name="imageFile"/>
+                </div>
+                <div class="input-group" style="margin-top: 5px;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+                    <select name="category" id="category" style="height: 30px; width: 100%">
+                        <div th:each="category:${session.categories}">
+                            <option th:value="${category.id}"><span th:text="${category.name}"></span></option>
+                        </div>
+                    </select>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-block" onclick="return checkProduct()">确定</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer text-right">
+            <span class="panel-title">酒城软件工作室@2017</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

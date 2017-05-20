@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>编辑类别</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-table.css}" href="../../static/bootstrap/css/bootstrap-table.css"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-editable.css}" href="../../static/bootstrap/css/bootstrap-editable.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-editable.js}"
+            src="../../static/bootstrap/js/bootstrap-editable.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table.js}" src="../../static/bootstrap/js/bootstrap-table.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table-editable.js}"
+            src="../../static/bootstrap/js/bootstrap-table-editable.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table-zh-CN.js}"
+            src="../../static/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+</head>
+<body>
+<!--包含模态对话框-->
+<div th:include="common/info-dialog"></div>
+
+<div class="col-md-12">
+    <div class="panel panel-primary" style="margin-top: 10px">
+        <div class="panel-heading text-center">
+            <span class="panel-title" style="font-size: 20px;">编辑类别</span>
+        </div>
+        <div class="panel-body">
+            <table id="category_table"
+                   data-toggle="table"
+                   data-url="/category/listAll"
+                   data-method="post"
+                   data-query-params="queryParams"
+                   data-pagination="true"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-page-size="5">
+            </table>
+        </div>
+        <div class="panel-footer text-right">
+            <span class="panel-title">酒城软件工作室@2017</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#category_table').bootstrapTable({
+        columns: [{
+            field: 'id',
+            title: '类别编号',
+        }, {
+            field: 'name',
+            title: '类别名称',
+            editable: {
+                type: 'text',
+                title: '类别名称',
+                validate: function (v) {
+                    if (!v) return '类别名称不能为空！';
+                }
+            }
+        }],
+
+        onEditableSave: function (field, row, oldValue, $el) {
+            $.post('/category/editCategory',
+                row,
+                function (data) {
+                    if (data.success) {
+                        $('#message').html("恭喜，编辑类别成功！");
+                        $('#dialog').css({visibility: "visible"});
+                    } else {
+                        $('#message').html("遗憾，编辑类别失败！");
+                        $('#dialog').css({visibility: "visible"});
+                    }
+                });
+        }
+    });
+</script>
+</body>
+</html>

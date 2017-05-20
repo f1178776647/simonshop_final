@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>删除类别</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-table.css}" href="../../static/bootstrap/css/bootstrap-table.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table.js}" src="../../static/bootstrap/js/bootstrap-table.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table-zh-CN.js}"
+            src="../../static/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+</head>
+<body>
+<!--包含模态对话框-->
+<div th:include="common/info-dialog"></div>
+
+<div id="dialog" class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header" style="background-color: beige">
+            <span style="font-weight: bold">温馨提示</span>
+            <button type="button" class="close" onclick="closeDialog();">x</button>
+        </div>
+        <div class="modal-body">
+            <h4 id="message"></h4>
+        </div>
+        <div class="modal-footer" style="background-color: beige">
+            <span>酒城软件工作室@2017</span>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-primary" style="margin-top: 10px">
+        <div class="panel-heading text-center">
+            <span class="panel-title" style="font-size: 20px;">删除类别</span>
+        </div>
+        <div class="panel-body">
+            <button id="btnDelete" type="button" class="btn btn-default" style="float:left;" onclick="del();">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+            </button>
+            <table id="category_table"
+                   data-toggle="table"
+                   data-url="/category/listAll"
+                   data-method="post"
+                   data-query-params="queryParams"
+                   data-pagination="true"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-page-size="5">
+            </table>
+        </div>
+        <div class="panel-footer text-right">
+            <span class="panel-title">酒城软件工作室@2017</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function del() {
+        var rows = $('#category_table').bootstrapTable("getSelections");
+        if (rows.length == 0) {
+            $("#message").html("未选择待删除记录！");
+            $('#dialog').css({visibility: "visible"});
+            return;
+        } else {
+            var reply = confirm("您确认要删除吗？");
+            if (reply) {
+                var idArray = new Array();
+                for (var i = 0; rows.length > i; i++) {
+                    idArray.push(rows[i].id);
+                }
+                $.getJSON("/category/deleteCategory", {ids: idArray.join()}, function (data) {
+                    if (data.success) {
+                        $("#message").html("类别删除成功！");
+                        $('#dialog').css({visibility: "visible"});
+                        $('#category_table').bootstrapTable('refresh');
+                    } else {
+                        $("#message").html("类别删除失败！");
+                        $('#dialog').css({visibility: "visible"});
+                    }
+                });
+            }
+        }
+    }
+
+    $('#category_table').bootstrapTable({
+        columns: [{
+            checkbox: true
+        }, {
+            field: 'id',
+            title: '编号'
+        }, {
+            field: 'name',
+            title: '类别'
+        }]
+    });
+</script>
+</body>
+</html>

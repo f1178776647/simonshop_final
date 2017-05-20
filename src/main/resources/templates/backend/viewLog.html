@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>查看日志</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" href="../../static/bootstrap/css/bootstrap-theme.css"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-table.css}" href="../../static/bootstrap/css/bootstrap-table.css"
+          rel="stylesheet"/>
+    <script th:src="@{/scripts/jquery-3.1.1.min.js}" src="../../static/scripts/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}" src="../../static/bootstrap/js/bootstrap.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table.js}" src="../../static/bootstrap/js/bootstrap-table.js"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-table-zh-CN.js}"
+            src="../../static/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+</head>
+<body>
+<div class="col-md-12">
+    <div class="panel panel-primary" style="margin-top: 10px">
+        <div class="panel-heading text-center">
+            <span class="panel-title" style="font-size: 20px;">查看日志</span>
+        </div>
+        <div class="panel-body">
+            <table id="user_table"
+                   data-toggle="table"
+                   data-url="/log/listAll"
+                   data-method="post"
+                   data-query-params="queryParams"
+                   data-pagination="true"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-page-size="10">
+                <thead>
+                <tr>
+                    <th data-field="id">编号</th>
+                    <th data-field="username">用户名</th>
+                    <th data-field="url">请求网址</th>
+                    <th data-field="time" data-formatter="formatRegisterTime">日志时间</th>
+                    <th data-field="operation">操作描述</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="panel-footer text-right">
+            <span class="panel-title">酒城软件工作室@2017</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        function formatRegisterTime(value, row, index) {
+            var date = new Date(value);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+
+            month = "0" + month;
+            month = month.substr(month.length - 2);
+            day = "0" + day;
+            day = day.substr(day.length - 2);
+            hour = "0" + hour;
+            hour = hour.substr(hour.length - 2);
+            minute = "0" + minute;
+            minute = minute.substr(minute.length - 2);
+            second = "0" + second;
+            second = second.substr(second.length - 2);
+
+            var registerTime = year + "-" + month + "-" + day
+                + " " + hour + ":" + minute + ":" + second;
+
+            return registerTime;
+        }
+</script>
+</body>
+</html>

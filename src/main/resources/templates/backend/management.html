@@ -1,0 +1,530 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>西蒙购物网后台管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--basic styles-->
+    <link th:href="@{/ace/css/bootstrap.min.css}" href="../../static/ace/css/bootstrap.min.css" rel="stylesheet"/>
+    <link th:href="@{/ace/css/bootstrap-responsive.min.css}" href="../../static/ace/css/bootstrap-responsive.min.css"
+          rel="stylesheet"/>
+    <link th:href="@{/ace/css/font-awesome.min.css}" rel="stylesheet" href="../../static/ace/css/font-awesome.min.css"/>
+    <!--ace styles-->
+    <link th:href="@{/ace/css/ace.min.css}" rel="stylesheet" href="../../static/ace/css/ace.min.css"/>
+    <link th:href="@{/ace/css/ace-responsive.min.css}" rel="stylesheet"
+          href="../../static/ace/css/ace-responsive.min.css"/>
+    <link th:href="@{/ace/css/ace-skins.min.css}" rel="stylesheet" href="../../static/ace/css/ace-skins.min.css"/>
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a href="#" class="brand">
+                <h1><i class="icon-leaf"></i> 西蒙购物网后台管理</h1>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="main-container container-fluid">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+            <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                <a class="btn btn-small btn-success" th:href="@{/user/viewUser}" target="mainFrame"
+                   onclick="viewUser()">
+                    <i class="icon-user"></i>
+                </a>
+                <a class="btn btn-small btn-info" th:href="@{/category/viewCategory}" target="mainFrame"
+                   onclick="viewCategory()">
+                    <i class="icon-book"></i>
+                </a>
+                <a class="btn btn-small btn-warning" th:href="@{/product/viewProduct}" target="mainFrame"
+                   onclick="viewProduct()">
+                    <i class="icon-desktop"></i>
+                </a>
+                <a class="btn btn-small btn-danger" th:href="@{/order/viewOrder}" target="mainFrame"
+                   onclick="viewOrder()">
+                    <i class="icon-heart"></i>
+                </a>
+            </div>
+        </div><!--#sidebar-shortcuts-->
+
+        <ul class="nav nav-list">
+            <!--用户管理菜单-->
+            <li>
+                <a id="userManagement" onclick="" class="dropdown-toggle">
+                    <i class="icon-user"></i>
+                    <span class="menu-text">用户管理</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a id="viewUser" th:href="@{/user/viewUser}" target="mainFrame" onclick="viewUser()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-search"></i><span>查看用户</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="addUser" th:href="@{/todo}" target="mainFrame" onclick="addUser()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-eraser"></i><span>添加用户</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="editUser" th:href="@{/todo}" target="mainFrame" onclick="editUser()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-edit"></i><span>编辑用户</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="deleteUser" th:href="@{/todo}" target="mainFrame" onclick="deleteUser()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-remove"></i><span>删除用户</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--类别管理菜单-->
+            <li>
+                <a id="categoryManagement" onclick="" class="dropdown-toggle">
+                    <i class="icon-book"></i>
+                    <span class="menu-text">类别管理</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a id="viewCategory" th:href="@{/category/viewCategory}" target="mainFrame"
+                           onclick="viewCategory()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-search"></i><span>查看类别</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="addCategory" th:href="@{/category/toAddCategory}" target="mainFrame" onclick="addCategory()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-eraser"></i><span>添加类别</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="editCategory" th:href="@{/category/toEditCategory}" target="mainFrame" onclick="editCategory()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-edit"></i><span>编辑类别</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="deleteCategory" th:href="@{/category/toDeleteCategory}" target="mainFrame" onclick="deleteCategory()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-remove"></i><span>删除类别</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--商品管理菜单-->
+            <li>
+                <a id="productManagement" onclick="" class="dropdown-toggle">
+                    <i class="icon-desktop"></i>
+                    <span class="menu-text">商品管理</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a id="viewProduct" th:href="@{/product/viewProduct}" target="mainFrame"
+                           onclick="viewProduct()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-search"></i><span>查看商品</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="addProduct" th:href="@{/product/toAddProduct}" target="mainFrame" onclick="addProduct()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-eraser"></i><span>添加商品</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="editProduct" th:href="@{/todo}" target="mainFrame" onclick="editProduct()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-edit"></i><span>编辑商品</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="deleteProduct" th:href="@{/todo}" target="mainFrame" onclick="deleteProduct()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-remove"></i><span>删除商品</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--订单管理菜单-->
+            <li>
+                <a id="orderManagement" onclick="" class="dropdown-toggle">
+                    <i class="icon-heart"></i>
+                    <span class="menu-text">订单管理</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a id="viewOrder" th:href="@{/order/viewOrder}" target="mainFrame" onclick="viewOrder()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-search"></i><span>查看订单</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="deleteOrder" th:href="@{/todo}" target="mainFrame" onclick="deleteOrder()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-remove"></i><span>删除订单</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--日志管理菜单-->
+            <li>
+                <a id="logManagement" onclick="" class="dropdown-toggle">
+                    <i class="icon-file"></i>
+                    <span class="menu-text">日志管理</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a id="viewLog" th:href="@{/log/viewLog}" target="mainFrame" onclick="viewLog()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-search"></i><span>查看日志</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="deleteLog" th:href="@{/todo}" target="mainFrame" onclick="deleteLog()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-remove"></i><span>删除日志</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!--数据管理菜单-->
+            <li>
+                <a id="dataManagement" onclick="" class="dropdown-toggle">
+                    <i class="icon-cloud"></i>
+                    <span class="menu-text">数据管理</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a id="restoreData" th:href="@{/data/restoreData}" target="mainFrame" onclick="restoreData()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-refresh"></i><span>还原数据</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="backupData" th:href="@{/todo}" target="mainFrame" onclick="backupData()">
+                            <i class="icon-double-angle-right"></i>
+                            <i class="icon-save"></i><span>备份数据</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul><!--/.nav-list-->
+
+        <div class="sidebar-collapse" id="sidebar-collapse">
+            <i class="icon-double-angle-left"></i>
+        </div>
+    </div>
+
+    <div class="main-content" style="height: 100%">
+        <div style="padding: 3px;">
+            <div class="text-left" style="float: left; margin-left: 5px; padding-top: 5px;">
+                登录用户：<span th:text="${session.username}" style="color: red;">admin</span>
+            </div>
+            <div style="float: left; margin-left: 5px;">
+                <a class="btn btn-primary btn-small" th:href="@{/}" href="../index.html">进入前台</a>
+            </div>
+            <div class="text-right" style="margin-right: 5px;">
+                <a class="btn btn-warning btn-small" th:href="@{/user/logout}" href="../index.html" target="_parent">注销</a>
+            </div>
+        </div>
+
+        <!--面包屑面板-->
+        <div class="breadcrumbs" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home home-icon"></i>
+                    <a id="bigGuide" href="#"></a>
+                    <span class="divider" style="display: none">
+					    <i class="icon-angle-right arrow-icon"></i>
+					</span>
+                </li>
+                <li id="smallGuide" class="active"></li>
+            </ul><!--.breadcrumb-->
+        </div>
+
+        <!--主面板-->
+        <div style="width: 100%; height: 600px">
+            <iframe name="mainFrame" th:src="@{/toMain}"
+                    style="width: 100%; height: 100%;"
+                    frameBorder="0" scrolling="no">
+            </iframe>
+        </div>
+
+        <!--设置面板-->
+        <div class="ace-settings-container" id="ace-settings-container">
+            <div class="btn btn-app btn-mini btn-warning ace-settings-btn" id="ace-settings-btn">
+                <i class="icon-cog bigger-150"></i>
+            </div>
+
+            <div class="ace-settings-box" id="ace-settings-box">
+                <div>
+                    <div class="pull-left">
+                        <select id="skin-colorpicker">
+                            <option data-class="default" value="#438EB9"/>
+                            #438EB9
+                            <option data-class="skin-1" value="#222A2D"/>
+                            #222A2D
+                            <option data-class="skin-2" value="#C6487E"/>
+                            #C6487E
+                            <option data-class="skin-3" value="#D0D0D0"/>
+                            #D0D0D0
+                        </select>
+                    </div>
+                    <span>&nbsp; 选择皮肤</span>
+                </div>
+
+                <div>
+                    <input type="checkbox" class="ace-checkbox-2" id="ace-settings-header"/>
+                    <label class="lbl" for="ace-settings-header">固定头部</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" class="ace-checkbox-2" id="ace-settings-sidebar"/>
+                    <label class="lbl" for="ace-settings-sidebar">固定侧栏</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" class="ace-checkbox-2" id="ace-settings-breadcrumbs"/>
+                    <label class="lbl" for="ace-settings-breadcrumbs">固定面包屑</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" class="ace-checkbox-2" id="ace-settings-rtl"/>
+                    <label class="lbl" for="ace-settings-rtl">左右互换</label>
+                </div>
+            </div>
+        </div><!--/#ace-settings-container-->
+    </div><!--/.main-content-->
+</div><!--/.main-container-->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-small btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+<!--jQuery脚本-->
+<script th:src="@{/ace/js/jquery-1.10.2.min.js}" src="../../static/ace/js/jquery-1.10.2.min.js"></script>
+<!--bootstrap脚本-->
+<script th:src="@{/ace/js/bootstrap.min.js}" src="../../static/ace/js/bootstrap.min.js"></script>
+<!--ace脚本-->
+<script th:src="@{/ace/js/ace-elements.min.js}" src="../../static/ace/js/ace-elements.min.js"></script>
+<script th:src="@{/ace/js/ace.min.js}" src="../../static/ace/js/ace.min.js"></script>
+
+<!--当前页面脚本-->
+<script type="text/javascript">
+    /*
+     * 查看用户
+     */
+    function viewUser() {
+        var a = document.getElementById("userManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("viewUser").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 添加用户
+     */
+    function addUser() {
+        var a = document.getElementById("userManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("addUser").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 编辑用户
+     */
+    function editUser() {
+        var a = document.getElementById("userManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("editUser").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 删除用户
+     */
+    function deleteUser() {
+        var a = document.getElementById("userManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("deleteUser").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 查看类别
+     */
+    function viewCategory() {
+        var a = document.getElementById("categoryManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("viewCategory").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 添加类别
+     */
+    function addCategory() {
+        var a = document.getElementById("categoryManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("addCategory").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 编辑类别
+     */
+    function editCategory() {
+        var a = document.getElementById("categoryManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("editCategory").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 删除类别
+     */
+    function deleteCategory() {
+        var a = document.getElementById("categoryManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("deleteCategory").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 查看商品
+     */
+    function viewProduct() {
+        var a = document.getElementById("productManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("viewProduct").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 添加商品
+     */
+    function addProduct() {
+        var a = document.getElementById("productManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("addProduct").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 编辑商品
+     */
+    function editProduct() {
+        var a = document.getElementById("productManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("editProduct").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 删除商品
+     */
+    function deleteProduct() {
+        var a = document.getElementById("productManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("deleteProduct").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 查看订单
+     */
+    function viewOrder() {
+        var a = document.getElementById("orderManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("viewOrder").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 删除订单
+     */
+    function deleteOrder() {
+        var a = document.getElementById("orderManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("deleteOrder").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 查看日志
+     */
+    function viewLog() {
+        var a = document.getElementById("logManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("viewLog").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 删除日志
+     */
+    function deleteLog() {
+        var a = document.getElementById("logManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("deleteLog").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 还原数据
+     */
+    function restoreData() {
+        var a = document.getElementById("dataManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("restoreData").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+
+    /*
+     * 备份数据
+     */
+    function backupData() {
+        var a = document.getElementById("dataManagement").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("bigGuide").innerHTML = a + "";
+        var s = document.getElementById("backupData").getElementsByTagName('span')[0].innerHTML;
+        document.getElementById("smallGuide").innerHTML = s + "";
+        document.getElementsByClassName("divider")[0].style.display = "inline";
+    }
+</script>
+</body>
+</html>
